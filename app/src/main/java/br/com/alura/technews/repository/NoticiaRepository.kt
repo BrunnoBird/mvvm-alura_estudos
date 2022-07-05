@@ -43,13 +43,13 @@ class NoticiaRepository(
         return liveData
     }
 
-    fun remove(noticia: Noticia) : LiveData<Resource<Void?>> {
+    fun remove(noticia: Noticia): LiveData<Resource<Void?>> {
         val liveData = MutableLiveData<Resource<Void?>>()
 
         removeNaApi(noticia, quandoSucesso = {
             liveData.value = Resource(null)
         }, quandoFalha = { erro ->
-            liveData.value= Resource(null, erro = erro)
+            liveData.value = Resource(null, erro = erro)
         })
         return liveData
     }

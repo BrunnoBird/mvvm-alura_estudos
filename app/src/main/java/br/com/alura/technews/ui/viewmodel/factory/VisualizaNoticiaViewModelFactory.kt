@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.alura.technews.repository.NoticiaRepository
 import br.com.alura.technews.ui.viewmodel.VisualizaNoticiaViewModel
 
-class VisualizaNoticiaViewModelFactory(private val repository: NoticiaRepository) : ViewModelProvider.Factory {
+class VisualizaNoticiaViewModelFactory(
+    private val repository: NoticiaRepository,
+    private val id: Long
+) :
+    ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(p0: Class<T>): T {
-        return VisualizaNoticiaViewModel(repository) as T
+        return VisualizaNoticiaViewModel(repository, id) as T
     }
 }

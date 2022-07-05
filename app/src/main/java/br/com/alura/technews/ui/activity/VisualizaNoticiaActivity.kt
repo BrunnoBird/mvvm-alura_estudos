@@ -24,7 +24,7 @@ class VisualizaNoticiaActivity : AppCompatActivity() {
 
     private val viewModel by lazy {
         val repository = NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
-        val factory = VisualizaNoticiaViewModelFactory(repository)
+        val factory = VisualizaNoticiaViewModelFactory(repository, noticiaId)
         ViewModelProvider(this, factory)
             .get(VisualizaNoticiaViewModel::class.java)
     }
@@ -60,9 +60,8 @@ class VisualizaNoticiaActivity : AppCompatActivity() {
     }
 
     private fun buscaNoticiaSelecionada() {
-        viewModel.buscaPorId(noticiaId).observe(this, Observer { noticiaEncontrada ->
+        viewModel.buscaPorId().observe(this, Observer { noticiaEncontrada ->
             noticiaEncontrada?.let {
-                this.noticia = it
                 preencheCampos(it)
             }
         })
@@ -81,7 +80,7 @@ class VisualizaNoticiaActivity : AppCompatActivity() {
     }
 
     private fun remove() {
-        viewModel.remove(noticia).observe(this, Observer { resource ->
+        viewModel.remove().observe(this, Observer { resource ->
             if (resource.erro == null) {
                 finish()
             } else {
