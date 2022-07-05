@@ -9,12 +9,10 @@ import br.com.alura.technews.repository.Resource
 
 class VisualizaNoticiaViewModel(
     private val repository: NoticiaRepository,
-    private val id: Long
+    id: Long
 ) : ViewModel() {
     //pegas as mudanças que teve e armazena
-    private val noticiaEncontrada = buscaPorId()
-
-    fun buscaPorId() = repository.buscaPorId(id)
+     val noticiaEncontrada = repository.buscaPorId(id)
 
     fun remove(): LiveData<Resource<Void?>> {
         /* run -> pega o valor garantido que não é null e envolvo dentro da função a ser executada

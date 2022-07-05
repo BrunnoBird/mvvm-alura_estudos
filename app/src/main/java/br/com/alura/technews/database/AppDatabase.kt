@@ -14,14 +14,25 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract val noticiaDAO: NoticiaDAO
 
+    //Singleton para que todas as viewmodels tenha a mesma referencia do banco
     companion object {
 
+        private lateinit var db: AppDatabase
+
         fun getInstance(context: Context): AppDatabase {
-            return Room.databaseBuilder(
+
+            //verificando se nosso DB foi ininicializado
+            //::db.isInitialized -> função reflection do lateinit para ver se já foi inicializado
+            if (::db.isInitialized) return db
+
+            //Caso não foi inicializado vamos criar a instancia
+            db = Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
                 NOME_BANCO_DE_DADOS
             ).build()
+
+            return db
         }
 
     }
