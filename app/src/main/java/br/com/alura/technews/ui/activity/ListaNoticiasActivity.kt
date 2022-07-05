@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import br.com.alura.technews.R
 import br.com.alura.technews.database.AppDatabase
 import br.com.alura.technews.model.Noticia
+import br.com.alura.technews.repository.FalhaResource
 import br.com.alura.technews.repository.NoticiaRepository
+import br.com.alura.technews.repository.SucessoResource
+import br.com.alura.technews.ui.activity.extensions.mostraErro
 import br.com.alura.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import br.com.alura.technews.ui.viewmodel.ListaNoticiasViewModel
 import br.com.alura.technews.ui.viewmodel.factory.ListaNoticiasViewModelFactory
@@ -66,9 +69,21 @@ class ListaNoticiasActivity : AppCompatActivity() {
 
     private fun buscaNoticias() {
         //observe -> sempre observa o liveData ver se tem algo novo
-        viewModel.buscaTodos().observe(this, Observer {
+        viewModel.buscaTodos().observe(this, Observer { resource ->
             //Quando tiver ativo ele vai chamar quando não estiver vai perder o vinculo.
-            adapter.atualiza(it);
+            resource.dado?.let {
+                //se não for nulo vamos atualizar o adapter
+                adapter.atualiza(it)
+            }
+            when (resource) {
+                is SucessoResource -> {
+                    //executa procedimento de sucesso
+                }
+                is FalhaResource -> {
+                    //executa procedimento de falha
+                    mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
+                }
+            }
         })
 
     }

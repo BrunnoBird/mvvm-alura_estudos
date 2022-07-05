@@ -13,16 +13,19 @@ class NoticiaRepository(
 ) {
     /* Property para que nosso liveData tenha sempre em memória os valores disponíveis
     acesso a leitura e escrita no MutableLiveData */
-    private val noticiasEncontradas = MutableLiveData<List<Noticia>>()
+    private val noticiasEncontradas = MutableLiveData<Resource<List<Noticia>?>>()
 
     //LiveData do Repository
-    fun buscaTodos(): LiveData<List<Noticia>> {
-        buscaInterno(quandoSucesso = {
-            noticiasEncontradas.value = it
+    fun buscaTodos(): LiveData<Resource<List<Noticia>?>> {
+        val atualizaListaNoticias: (List<Noticia>) -> Unit = {
+            noticiasEncontradas.value = Resource(dado = it)
+        }
+        buscaInterno(quandoSucesso = atualizaListaNoticias)
+        buscaNaApi(quandoSucesso = atualizaListaNoticias, quandoFalha = { erro ->
+            val resourceAtual = noticiasEncontradas.value
+            val resourceDeFalha = criaResourceDeFalha<List<Noticia>?>(resourceAtual, erro)
+            noticiasEncontradas.value = resourceDeFalha
         })
-        buscaNaApi(quandoSucesso = {
-            noticiasEncontradas.value = it
-        }, quandoFalha = {})
         return noticiasEncontradas
     }
 
