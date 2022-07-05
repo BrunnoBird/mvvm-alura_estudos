@@ -30,11 +30,17 @@ class NoticiaRepository(
     }
 
     fun salva(
-        noticia: Noticia,
-        quandoSucesso: (noticiaNova: Noticia) -> Unit,
-        quandoFalha: (erro: String?) -> Unit
-    ) {
-        salvaNaApi(noticia, quandoSucesso, quandoFalha)
+        noticia: Noticia
+    ): LiveData<Resource<Void?>> {
+        //não precisamos criar um properti pois não queremos cachear nosso estado Livedata
+        val liveData = MutableLiveData<Resource<Void?>>()
+
+        salvaNaApi(noticia, quandoSucesso = {
+            liveData.value = Resource(null) //não preciso armazenar o valor
+        }, quandoFalha = { erro ->
+            liveData.value = Resource(null, erro)
+        })
+        return liveData
     }
 
     fun remove(

@@ -75,6 +75,7 @@ class ListaNoticiasActivity : AppCompatActivity() {
                 //se não for nulo vamos atualizar o adapter
                 adapter.atualiza(it)
             }
+            //Posso fazer deste modo tambem
             when (resource) {
                 is SucessoResource -> {
                     //executa procedimento de sucesso
