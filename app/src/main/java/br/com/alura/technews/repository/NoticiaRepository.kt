@@ -10,7 +10,7 @@ import br.com.alura.technews.retrofit.webclient.NoticiaWebClient
 
 class NoticiaRepository(
     private val dao: NoticiaDAO,
-    private val webclient: NoticiaWebClient = NoticiaWebClient()
+    private val webclient: NoticiaWebClient
 ) {
     //Property para que nosso liveData tenha sempre em memória os valores disponíveis
     //Mediador -> conseguimos fazer com que o nosso LiveData tenha multiplos tipos de retornos de LiveData

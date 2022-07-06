@@ -18,20 +18,15 @@ import br.com.alura.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import br.com.alura.technews.ui.viewmodel.ListaNoticiasViewModel
 import br.com.alura.technews.ui.viewmodel.factory.ListaNoticiasViewModelFactory
 import kotlinx.android.synthetic.main.activity_lista_noticias.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val TITULO_APPBAR = "Notícias"
 private const val MENSAGEM_FALHA_CARREGAR_NOTICIAS = "Não foi possível carregar as novas notícias"
 
 class ListaNoticiasActivity : AppCompatActivity() {
-    //View model como prop para que todos possam acessa-la
-    private val viewModel by lazy {
-        val repository = NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
-        val factory = ListaNoticiasViewModelFactory(repository)
-        ViewModelProvider(
-            this,
-            factory
-        ).get(ListaNoticiasViewModel::class.java)
-    }
+    //Koin Criando
+    private val viewModel: ListaNoticiasViewModel by viewModel()
 
     private val adapter by lazy {
         ListaNoticiasAdapter(context = this)

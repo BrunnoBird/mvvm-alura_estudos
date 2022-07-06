@@ -29,6 +29,11 @@ android {
         targetCompatibility = "8"
         sourceCompatibility = "8"
     }
+
+    // Add Maven Central to your repositories if needed
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -54,4 +59,8 @@ dependencies {
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+
+    //Koin
+    implementation 'org.koin:koin-android:2.0.0-rc-2'
+    implementation 'org.koin:koin-android-viewmodel:2.0.0-rc-2'
 }
